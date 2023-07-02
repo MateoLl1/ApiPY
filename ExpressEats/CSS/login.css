@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@300&family=Ubuntu:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Geologica",sans-serif;
+}
+body{
+    background-color: #FF0060;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.contenedor-principal{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+.contenedor-login{
+    display: flex;    
+    gap: 10px;
+    width: 70%;
+    background-color: #E4DCCF;
+    height: min-content;
+    margin-bottom: 104px;
+    border-radius: 20px;
+}
+
+.contenedor-derecha{
+    padding: 30px;
+    width: 100%;
+}
+
+.contenedor-derecha h3{
+    margin-bottom: 10px;
+    font-size: 120%;
+}
+
+#imgChica{
+    width: 30%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius:20px ; 
+    object-fit: cover;
+}
+
+.uno{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.uno :nth-child(1){
+    width: 40px;
+    vertical-align: middle;
+}
+.uno :nth-child(2){
+    font-size: 200%;
+}    
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+form input[type="text"],input[type="password"]{
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 120%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+
+form button{
+    margin-bottom: 10px;
+    font-size: 120%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1c1c11;
+    color: white;
+}
+
+
+nav{
+    display: flex;
+    flex-direction: column;
+}
+
+nav a{
+    margin: 5px 0;
+    font-size: 100%;
+}
+
+#txtMensaje{
+    color: #FF0060;
+    
+}
+
+@media(max-width:360px){
+    .uno img {
+        display: none;
+    }
+    
+}
+
+@media(max-width:780px){
+    #imgChica{
+        width: 5%;
+        display: none;
+        background-color: #1c1c11;
+
+    }
+}
+/***********************************************************/
+/*                   contenedor-login                      */
+/***********************************************************/

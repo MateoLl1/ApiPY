@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos Ya</title>
+    <link rel="icon" href="../ImagenesIndex/icono.jpg">
+    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesheet" href="../CSS/SingIn.css">
+</head>
+<body>
+    <section class="contenedor-singin">
+        <div class="contenedor-izquierda">
+            <div class="caja-inicio">
+                <img src="../ImagenesLoginSing/registro.png" alt="">
+                <h1>Crear nueva cuenta</h1>
+            </div>
+            <a href="Login.html">¿Ya tiene una cuenta? <span> Log in</span></a>
+            <div class="cajas-nombre">
+                <input id="txtNombre" type="text" placeholder="Nombre">
+                <input id="txtUsuario" type="text" placeholder="Usuario" style="color: #E7B10A;" disabled>
+            </div>
+            <input id="txtCedula" type="number" placeholder="Cedula">
+            <input id="txtCorreo" type="text" placeholder="Correo">
+            <input id="txtPassword" type="password" placeholder="Contraseña">
+            <div class="caja-numero">
+                <input id="txtNumero" type="number" placeholder="Numero">
+            </div>
+            <div class="caja-nacimiento">
+                <h1>Fecha de nacimiento:</h1>                
+                <input id="txtFechaNacimiento" type="date">
+            </div>
+            <h5>Foto de Perfil</h3>
+            <input id="imgUsuario" type="file" accept="image/*">
+            <h5 id="mensaje"></h5>
+            <button id="btnRegistro" >Registrarme</button>
+        </div>
+        
+        <script src="../Conexion/singIn.js"></script>
+
+        <img id="imgDerecha" src="../ImagenesLoginSing/57673.jpg" alt="">
+        <img id="imgResposive" src="../ImagenesLoginSing/stone-texture.jpg" alt="">
+    </section>
+    <footer>
+        <div class="redesSociales">
+            <a href=""><img src="../ImagenesIndex/facebook.svg" alt=""></a>
+            <a href=""><img src="../ImagenesIndex/whatsapp.svg" alt=""></a>
+            <a href=""><img src="../ImagenesIndex/instagram.svg" alt=""></a>
+        </div>
+        <h4>Mateo Llerena © 2023 todos los derechos reservados</h1>
+    </footer>
+</body>
+</html>

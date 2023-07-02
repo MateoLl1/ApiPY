@@ -1,0 +1,55 @@
+//CADENA DE CONEXION
+const config = {
+    user: 'sa',
+    password: '123456',
+    server: 'localhost',
+    database: 'Prueba',
+    options: {
+        encrypt: true,
+        trustServerCertificate: true,
+      },
+  };
+
+sql.connect(config)
+.then(() => {
+console.log('Conexión exitosa a SQL Server');
+})
+.catch((error) => {
+console.log('Error al conectar a SQL Server:', error);
+});
+
+///Metodo consultas a sqlserver
+
+const nombre = 'mateo';
+  const email = '1234';
+  
+  sql.connect(config)
+    .then(() => {
+      console.log('Conexión exitosa a SQL Server');
+      const query = `delete from tbl_usu where nombre='Juan'`;
+      const parameters = [
+        { name: 'nombre', type: sql.NVarChar, value: nombre },
+        { name: 'email', type: sql.NVarChar, value: email }
+      ];
+  
+      const request = new sql.Request();
+      parameters.forEach((param) => {
+        request.input(param.name, param.type, param.value);
+      });
+  
+      request.query(query)
+        .then(() => {
+          console.log('Inserción exitosa al iniciar el servidor');
+        })
+        .catch((error) => {
+          console.error('Error al realizar la inserción al iniciar el servidor:', error);
+        })
+        .finally(() => {
+          sql.close();
+          server.close();
+        });
+    })
+    .catch((error) => {
+      console.log('Error al conectar a SQL Server:', error);
+      server.close();
+    });

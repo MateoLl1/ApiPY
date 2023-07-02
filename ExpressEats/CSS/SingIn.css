@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@300&family=Ubuntu:wght@300&display=swap');
+
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+input{
+    border-radius: 20px;
+    padding: 5px;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: #FF0060;
+    color: aliceblue;
+    align-items: center;
+}
+
+.contenedor-singin{
+    display: flex;
+    margin: 40px 0;
+    width: 80%;
+    height: max-content;
+    background-color: #002B5B;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 30px;
+    
+}
+
+.contenedor-izquierda{
+    padding: 20px;
+    padding-left: 10%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.contenedor-izquierda :nth-child(1){
+    width: 60px;
+}
+
+.caja-inicio{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    
+}
+.caja-inicio :nth-child(1){
+    width: 40px;
+    height: 40px;
+}
+.caja-inicio h1{
+    font-family: 'Ubuntu', sans-serif;
+    white-space: nowrap;
+    
+}
+
+.contenedor-izquierda a {
+    color: #FF0060;
+}
+
+.cajas-nombre{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+}
+.cajas-nombre input[type="text"]{
+    width: 50%;
+    font-size: 15px;
+}
+
+.caja-numero input[type=number]{
+    width: 40%;
+}
+
+.caja-nacimiento{
+    display: flex;
+    flex-direction: column;
+}
+
+.caja-nacimiento h1{
+    white-space: nowrap;
+    font-size: 15px;
+}
+.caja-nacimiento input[type="date"]{
+    font-size: 15px;
+}
+
+#imgDerecha{
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    width: 35%;
+    height: 28rem;
+    display: flex;
+}
+input::placeholder {
+    color: #E7B10A;
+}
+
+button{
+    border-radius: 30px;
+    background-color: #FF0060;
+    padding: 5px;
+    color: aliceblue;
+    font-size: 15px;
+    border: none;
+}
+
+button:hover{
+    background-color: #1c1c11;
+    transition: 0.1s font-size;
+    font-size: 16px;
+    
+}
+#imgResposive{
+    display: none;
+}
+
+#mensaje{
+    display: none;
+    text-align: right;
+    padding: 5px;
+}
+
+@media(max-width:850px){
+    #imgDerecha{
+        width: 10rem;
+        display: none;
+    }
+    #imgResposive{
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        width: 10%;
+        height: 27.5rem;
+        display: flex;
+    }
+    .contenedor-izquierda{
+        padding: 20px;
+    }
+}
+
+@media(max-width:500px){
+    #imgResposive{
+        display: none;
+    }
+    .contenedor-izquierda{
+        padding: 20px  0;
+    }
+    .contenedor-singin{
+        justify-content: center;
+    }
+    .caja-inicio h1{
+        white-space: normal;
+    }
+}
+
+@media(max-width:330px){
+    .caja-inicio :nth-child(1){
+        display: none;
+    }
+    .caja-inicio{
+        text-align: center;
+        gap: 0;
+    }
+    .cajas-nombre{
+        flex-direction: column;
+        gap: 3px;
+    }
+    .cajas-nombre input[type="text"]{
+        width: 100%;
+    }
+    .caja-numero input[type="number"]{
+        width: 100%;
+    }
+}
