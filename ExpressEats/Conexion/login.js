@@ -43,7 +43,7 @@ function Validar(){
                                 Usuario: usuario,
                                 Pass: password
                             }
-                            fetch("http://192.168.1.13:4040/SingIn",{
+                            fetch("http://192.168.1.26:4040/login",{
                                 method: 'POST',
                                 headers:{
                                     'Content-Type': 'application/json'
@@ -65,10 +65,10 @@ function Validar(){
                             })   
                             .catch(error => console.error('Error en la solicitud:', error)); 
                         }, 1000);
-                    }, 1000);
-                }, 1000);
-            }, 1000);
-        }, 1000);
+                    }, 10);
+                }, 10);
+            }, 10);
+        }, 10);
         
     }
 }
