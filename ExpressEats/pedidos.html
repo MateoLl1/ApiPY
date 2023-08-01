@@ -1,38 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./ImagenesIndex/icono.jpg">
-    <title>Bienvenido</title>
-    <!-- BOOSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./CSS/pedidos.css">
-</head>
-<body>
-    <section class="content-nav">
-        <nav class="navbar bg-light">
-            <div class="container-fluid">
-                <a href=""><img id="logo" src="./ImagenesIndex/logo_pedidosya.png" alt=""></a>
-              <a id="txtUsuario" class="navbar-brand">Bienvenido Mateo</a>
-              <form class="d-flex" role="search">
-                <input id="txtBuscar" class="form-control me-2" type="search" placeholder="Escribe algo.." aria-label="Search">
-                <button class="btn btn-danger" type="submit">Buscar</button>
-              </form>
-            </div>
-          </nav>
-    </section>
 
-    <section class="container-menu">
-        <a href=""><img src="./imagenes-pedi/restaurante.png" alt=""></a>
-        <a href=""><img src="./imagenes-pedi/Bebidas.png" alt=""></a>
-        <a href=""><img src="./imagenes-pedi/pedi-market.png" alt=""></a>
-        <a href=""><img src="./imagenes-pedi/supermercados.png" alt=""></a>
-        <a href=""><img src="./imagenes-pedi/retiro.png" alt=""></a>
-        <a href=""><img src="./imagenes-pedi/farmacia.png" alt=""></a>
-    
-    </section>
-    
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./ImagenesIndex/icono.jpg">
+  <title>Bienvenido</title>
+  <!-- BOOSTRAP -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./CSS/index.css">
+  <link rel="stylesheet" href="./CSS/pedidos.css">
+</head>
+
+<body>
+  <section class="content-nav">
+    <nav class="navbar bg-light">
+      <div class="container-fluid">
+        <a href=""><img id="logo" src="./ImagenesIndex/logo_pedidosya.png" alt=""></a>
+        <a id="txtUsuario" class="navbar-brand">Bienvenido Mateo</a>
+        <form class="d-flex" role="search">
+          <input id="txtBuscar" class="form-control me-2" type="search" placeholder="Escribe algo.."
+            aria-label="Search">
+          <button class="btn btn-danger" type="submit">Buscar</button>
+        </form>
+      </div>
+    </nav>
+  </section>
+
+  <section class="container-menu">
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/restaurante.png" alt=""></a>
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/Bebidas.png" alt=""></a>
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/pedi-market.png" alt=""></a>
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/supermercados.png" alt=""></a>
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/retiro.png" alt=""></a>
+    <a href="./crud-productos.html"><img src="./imagenes-pedi/farmacia.png" alt=""></a>
+
+  </section>
+
+  <section class="container-surcursales">
+    <h2 style="padding: 0 10%;">Nuestros Restaurantes</h2>
+    <hr style="margin: 0 10%;">
+    <a href="">
+      <div class="card mb-3" style="max-width: 70%; height: fit-content;">
+        <div class="row g-0">
+          <div class="col-md-2">
+            <img src="./imagenes-pedi/KFC-Logo.png" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">KFC</h5>
+              <p class="card-text">Disfruta de nuestro pollo crujiente y sabroso, sazonado con nuestras recetas secretas
+                que han conquistado los paladares de generaciones.</p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="max-width: 70%; height: fit-content;">
+        <div class="row g-0">
+          <div class="col-md-2">
+            <img src="./imagenes-pedi/burgerking.png" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Burger King</h5>
+              <p class="card-text">El sabor de la realeza en cada bocado! Descubre una experiencia única con nuestras
+                deliciosas hamburguesas a la parrilla, siempre preparadas con ingredientes frescos y de la más alta
+                calidad.</p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="max-width: 70%; height: fit-content;">
+        <div class="row g-0">
+          <div class="col-md-2">
+            <img src="./imagenes-pedi/macdonals.png" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">McDonald's</h5>
+              <p class="card-text">Un mundo de sabores para todos los gustos! Te invitamos a descubrir nuestra icónica
+                'McNifica' variedad de deliciosas hamburguesas.</p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="max-width: 70%; height: fit-content;">
+        <div class="row g-0">
+          <div class="col-md-2">
+            <img src="./imagenes-pedi/pizzahut.jpg" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Pizza Hut</h5>
+              <p class="card-text">El sabor que crea momentos inolvidables! Descubre un mundo de pizzas artesanales,
+                preparadas con los ingredientes más frescos y una variedad de sabores que despiertan tus sentidos. </p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </section>
+
+
+  <footer>
+    <div class="redesSociales">
+      <a href=""><img src="./ImagenesIndex/whatsapp.svg" alt=""></a>
+      <a href=""><img src="./ImagenesIndex/facebook.svg" alt=""></a>
+      <a href=""><img src="./ImagenesIndex/instagram.svg" alt=""></a>
+    </div>
+    <h4>Mateo Llerena © 2023 todos los derechos reservados</h1>
+  </footer>
 </body>
+
 </html>

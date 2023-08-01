@@ -3,14 +3,16 @@ const app = express();
 const port = 4040;
 const cors = require("cors");
 const sql = require("mssql");
-
 //Extensiones utilizadas
 app.use(express.static("ExpressEats"));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
-//VARIABLES GLOBALES
+//Datos base de datos
+const con = require("./conexion");
+
+//Credenciales SQL
 const config = {
   user: "sa",
   password: "123456",
@@ -52,6 +54,51 @@ app.post("/login", (req, res) => {
     }
   }
 
+  app.post("/SingIn", (req, res) => {
+    const objetoRegistro = req.body;
+    let respuesta2 = {
+      Res: null,
+    };
+
+    async function insertarRegistro(objetoRegistro) {
+      try {
+        await sql.connect(config);
+        console.log("Conexión exitosa a SQL Server");
+
+        const query = `
+      insert into tbl_usuario (usuario,password,cedula,correo,numero,fechaNacimiento)
+      values (@Usuario,@Password,@Cedula,@Correo,@Numero,@Fecha)
+      `;
+
+        const request = new sql.Request();
+        request.input("Usuario", sql.VarChar, objetoRegistro.Nombre);
+        request.input("Password", sql.VarChar, objetoRegistro.Pass);
+        request.input("Cedula", sql.VarChar, objetoRegistro.Cedula);
+        request.input("Correo", sql.VarChar, objetoRegistro.Correo);
+        request.input("Numero", sql.VarChar, objetoRegistro.Numero);
+        request.input("Fecha", sql.VarChar, objetoRegistro.Nacimiento);
+
+        await request.query(query);
+
+        console.log("Registro insertado exitosamente");
+        respuesta2.Res = true;
+        res.json(respuesta2);
+      } catch (error) {
+        respuesta2.Res = false;
+        res.json(respuesta2);
+        console.log("Error al conectar a SQL Server:", error);
+      }
+    }
+
+    insertarRegistro(objetoRegistro).catch((error) => {
+      console.error("Error al insertar el registro:", error);
+      respuesta2.Res = false;
+      res.json(respuesta2);
+    });
+  });
+
+  //FUNCIONES
+
   const respuesta = {
     Res: null,
   };
@@ -69,49 +116,30 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.post("/SingIn", (req, res) => {
-  const objetoRegistro = req.body;
-  let respuesta2 = {
-    Res: null,
-  };
-
-  async function insertarRegistro(objetoRegistro) {
-    try {
-      await sql.connect(config);
-      console.log("Conexión exitosa a SQL Server");
-
-      const query = `
-      insert into tbl_usuario (usuario,password,cedula,correo,numero,fechaNacimiento)
-      values (@Usuario,@Password,@Cedula,@Correo,@Numero,@Fecha)
-      `;
-
-      const request = new sql.Request();
-      request.input("Usuario", sql.VarChar, objetoRegistro.Nombre);
-      request.input("Password", sql.VarChar, objetoRegistro.Pass);
-      request.input("Cedula", sql.VarChar, objetoRegistro.Cedula);
-      request.input("Correo", sql.VarChar, objetoRegistro.Correo);
-      request.input("Numero", sql.VarChar, objetoRegistro.Numero);
-      request.input("Fecha", sql.VarChar, objetoRegistro.Nacimiento);
-
-      await request.query(query);
-
-      console.log("Registro insertado exitosamente");
-      respuesta2.Res = true;
-      res.json(respuesta2);
-    } catch (error) {
-      respuesta2.Res = false;
-      res.json(respuesta2);
-      console.log("Error al conectar a SQL Server:", error);
-    }
+//Traer usuarios de la base
+async function obtenerYMostrarUsuarios() {
+  try {
+    const datos = await con.obtenerUsuarios();
+    return datos;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
   }
+}
 
-  insertarRegistro(objetoRegistro).catch((error) => {
-    console.error("Error al insertar el registro:", error);
-    respuesta2.Res = false;
-    res.json(respuesta2);
-  });
+app.post("/Cargar", async (req, res) => {
+  try {
+    // Llamamos a la función obtenerYMostrarUsuarios()
+    const resultado = await obtenerYMostrarUsuarios();
+
+    // Enviamos el resultado en la respuesta JSON
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error al obtener y mostrar usuarios:", error);
+    res.status(500).json({ error: "Error al obtener y mostrar usuarios" });
+  }
 });
 
 const server = app.listen(port, () => {
   console.log(`\x1b[34mServidor Iniciado en ${port}\x1b[37m`);
+  obtenerYMostrarUsuarios();
 });

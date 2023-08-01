@@ -3,7 +3,7 @@ const app = express();
 const port = 5050;
 const con = require("./conexion");
 const cors = require("cors");
-
+const consulta = con.obtenerUsuarios();
 //Extensiones utilizadas
 app.use(express.static("ExpressEats"));
 app.use(express.json());
@@ -26,5 +26,5 @@ app.use((req, res, next) => {
 //CARGA DEL SERVIDOR
 const server = app.listen(port, () => {
   console.log(`\x1b[34mServidor Iniciado en ${port}\x1b[37m`);
-  console.log(con.conectarSQL());
+  console.log(consulta);
 });

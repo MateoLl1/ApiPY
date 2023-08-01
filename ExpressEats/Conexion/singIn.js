@@ -55,7 +55,7 @@ function validar() {
       Image: formData,
     };
 
-    fetch("http://192.168.1.26:4040/SingIn", {
+    fetch("http://192.168.1.100:4040/SingIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,11 +67,11 @@ function validar() {
         const ResNodeJs = data;
         console.log("Respuesta del servidor:", data);
         if (ResNodeJs.Res === true) {
-            mensaje.innerHTML = "✔ Registrado";
-            mensaje.style.color = "green";
+          mensaje.innerHTML = "✔ Registrado";
+          mensaje.style.color = "green";
         } else {
-            mensaje.innerHTML = "❌ Error";
-            mensaje.style.color = "red";
+          mensaje.innerHTML = "❌ Error";
+          mensaje.style.color = "red";
         }
       })
       .catch((error) => console.error("Error en la solicitud:", error));
