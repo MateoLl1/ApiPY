@@ -14,6 +14,7 @@
     <link rel="icon" href="./ImagenesIndex/icono.jpg">
     <link rel="stylesheet" href="./CSS/index.css">
     <link rel="stylesheet" href="./CSS/pedidos.css">
+    <link rel="stylesheet" href="./CSS/tablas.css">
 </head>
 
 <body>
@@ -34,8 +35,23 @@
     <section class="container">
         <h1>Administar Productos</h1>
         <hr>
-        <form>
-            <input type="text" placeholder="Nombre Producto">
+        <form id="form" class="formulario">
+            <input id="txtId" type="number" placeholder="id" readonly>
+            <input id="txtNombre" type="text" placeholder="Nombre Producto">
+            <input id="txtDes" type="text" placeholder="Descripcion">
+            <input id="txtPrecio" type="decimal" placeholder="Precio">
+            <select id="comboEmpresa">
+                <option value="valor1">KFC</option>
+                <option value="valor2">Pizza Hut</option>
+                <option value="valor3">Burger King</option>
+            </select>
+            <div class="container-btn">
+                <button id="btnIns" class="btn btn-success">Ingresar</button>
+                <button id="btnEli" class="btn btn-danger">Eliminar</button>
+                <button id="btnAct" class="btn btn-secondary">Actualizar</button>
+                <button id="btnLimp" class="btn btn-light">Limpiar</button>
+            </div>
+            <h5 id="mensaje"></h5>
         </form>
     </section>
 
@@ -44,17 +60,15 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuario</th>
-                    <th>Contraseña</th>
-                    <th>Cedula</th>
-                    <th>Correo</th>
-                    <th>Numero</th>
-                    <th>Fecha de Nacimiento</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Empresa</th>
                     <th>Administrar</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Las filas se agregarán aquí -->
             </tbody>
 
         </table>

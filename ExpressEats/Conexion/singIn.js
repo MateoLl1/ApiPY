@@ -52,10 +52,9 @@ function validar() {
       Pass: password,
       Numero: numero,
       Nacimiento: nacimiento,
-      Image: formData,
     };
 
-    fetch("http://192.168.1.100:4040/SingIn", {
+    fetch("http://192.168.29.35:4040/SingIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,6 +68,7 @@ function validar() {
         if (ResNodeJs.Res === true) {
           mensaje.innerHTML = "✔ Registrado";
           mensaje.style.color = "green";
+          window.location.href = "./login.html";
         } else {
           mensaje.innerHTML = "❌ Error";
           mensaje.style.color = "red";

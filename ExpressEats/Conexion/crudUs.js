@@ -1,7 +1,11 @@
 const txtId = document.getElementById("txtId");
-const txtNombre = document.getElementById("txtNombre");
-const txtDes = document.getElementById("txtDes");
-const txtPrecio = document.getElementById("txtPrecio");
+const txtUsu = document.getElementById("txtUsu");
+const txtPass = document.getElementById("txtPass");
+const txtCed = document.getElementById("txtCed");
+const txtCorreo = document.getElementById("txtCorreo");
+const txtNum = document.getElementById("txtNum");
+const lblFecha = document.getElementById("lblFecha");
+const txtFecha = document.getElementById("txtFecha");
 const comboEmpresa = document.getElementById("comboEmpresa");
 const btnIns = document.getElementById("btnIns");
 const btnEli = document.getElementById("btnEli");
@@ -14,14 +18,16 @@ window.addEventListener("load", () => {
   formularioLogin.addEventListener("submit", function (event) {
     event.preventDefault();
   });
-  btnIns.addEventListener("click", insertarProducto);
-  btnEli.addEventListener("click", eliminarPro);
   btnLimp.addEventListener("click", limpiar);
+  btnIns.addEventListener("click", insertarUsuario);
+  btnEli.addEventListener("click", eliminarPro);
+  var fechaActual = new Date().toISOString().split("T")[0];
+  txtFecha.setAttribute("max", fechaActual);
   btnAct.addEventListener("click", actualizarProducto);
 });
 
 function cargarUsuario() {
-  fetch("http://192.168.29.35:4040/CargarP", {
+  fetch("http://192.168.29.35:4040/cargar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,17 +47,18 @@ function cargarUsuario() {
       tbody.innerHTML = "";
 
       // Agrega una fila por cada objeto en 'data'
-      data.forEach((producto) => {
+      data.forEach((usuario) => {
         const fila = `
           <tr>
-            <td>${producto.pro_id}</td>
-            <td>${producto.pro_nombre}</td>
-            <td>${producto.pro_descripcion}</td>
-            <td>${producto.pro_precio}</td>
-            <td>${producto.pro_estado}</td>
-            <td>${producto.em_id}</td>
+            <td>${usuario.id}</td>
+            <td>${usuario.usuario}</td>
+            <td>${usuario.password}</td>
+            <td>${usuario.cedula}</td>
+            <td>${usuario.correo}</td>
+            <td>${usuario.numero}</td>
+            <td>${usuario.fechaNacimiento}</td>
             <td>
-            <button type="button" class="btn btn-danger btn-sm" data-id="${producto.pro_id}" onclick="btnSeleccionar(this)">Seleccionar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-id="${usuario.id}" onclick="btnSeleccionar(this)">Seleccionar</button>
             </td>
           </tr>
         `;
@@ -67,19 +74,27 @@ function btnSeleccionar(btn) {
   const idUsuario = btn.getAttribute("data-id");
   //alert("ID del botón seleccionado: " + idUsuario);
   txtId.value = idUsuario;
+
   const fila = btn.parentNode.parentNode;
+
+  // Obtener los elementos de las celdas (<td>) dentro de la fila
   const celdas = fila.querySelectorAll("td");
 
   // Obtener los valores de las celdas individuales
-  const proId = celdas[0].textContent;
-  const proNombre = celdas[1].textContent;
-  const proDescripcion = celdas[2].textContent;
-  const proPrecio = celdas[3].textContent;
-  const proEstado = celdas[4].textContent;
-  const emId = celdas[5].textContent;
-  txtNombre.value = proNombre;
-  txtDes.value = proDescripcion;
-  txtPrecio.value = proPrecio;
+  const id = celdas[0].textContent;
+  const usuario = celdas[1].textContent;
+  const password = celdas[2].textContent;
+  const cedula = celdas[3].textContent;
+  const correo = celdas[4].textContent;
+  const numero = celdas[5].textContent;
+  const fechaNacimiento = celdas[6].textContent;
+
+  txtUsu.value = usuario;
+  txtPass.value = password;
+  txtCed.value = cedula;
+  txtCorreo.value = correo;
+  txtNum.value = numero;
+  txtFecha.value = fechaNacimiento;
 }
 
 function eliminarPro() {
@@ -91,7 +106,7 @@ function eliminarPro() {
     const producto = {
       ID: id,
     };
-    fetch("http://192.168.29.35:4040/EliminarP", {
+    fetch("http://192.168.29.35:4040/EliminarUs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,29 +131,42 @@ function eliminarPro() {
       .catch((error) => console.error("Error en la solicitud:", error));
   }
 }
-function insertarProducto() {
-  let id = txtId.value.trim();
-  let nombre = txtNombre.value.trim();
-  let descri = txtDes.value.trim();
-  let precio = txtPrecio.value.trim();
+function insertarUsuario() {
+  let nombre = txtUsu.value.trim();
+  let contra = txtPass.value.trim();
+  let cedula = txtCed.value.trim();
+  let correo = txtCorreo.value.trim();
+  let numero = txtNum.value.trim();
+  let fecha = txtFecha.value;
 
-  if (nombre === "" || descri === "" || precio == "") {
+  if (
+    nombre === "" ||
+    contra === "" ||
+    cedula === "" ||
+    correo === "" ||
+    numero === "" ||
+    fecha === ""
+  ) {
     mensaje.style.color = "red";
     mensaje.innerHTML = "Llene los campos";
   } else {
-    mensaje.innerHTML = "";
     mensaje.style.color = "black";
-    const producto = {
+    mensaje.innerHTML = "";
+    const objetoRegistro = {
       Nombre: nombre,
-      Descripcion: descri,
-      Precio: precio,
+      Pass: contra,
+      Cedula: cedula,
+      Correo: correo,
+      Numero: numero,
+      Nacimiento: fecha,
     };
-    fetch("http://192.168.29.35:4040/Producto", {
+
+    fetch("http://192.168.29.35:4040/SingIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(producto),
+      body: JSON.stringify(objetoRegistro),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -162,52 +190,52 @@ function insertarProducto() {
 }
 
 function actualizarProducto() {
+  let nombre = txtUsu.value.trim();
+  let contra = txtPass.value.trim();
+  let cedula = txtCed.value.trim();
+  let correo = txtCorreo.value.trim();
+  let numero = txtNum.value.trim();
+  let fecha = txtFecha.value;
   let id = txtId.value.trim();
-  let nombre = txtNombre.value.trim();
-  let descri = txtDes.value.trim();
-  let precio = txtPrecio.value.trim();
-
-  if (id === "" || nombre === "" || descri === "" || precio == "") {
+  if (id === "") {
     mensaje.style.color = "red";
-    mensaje.innerHTML = "Llene los campos";
+    mensaje.innerHTML = "Seleccione un registro";
   } else {
-    if (precio <= 0) {
-      mensaje.style.color = "red";
-      mensaje.innerHTML = "ID invalido";
-    } else {
-      mensaje.innerHTML = "";
-      const producto = {
-        ID: txtId.value,
-        Nombre: nombre,
-        Descripcion: descri,
-        Precio: precio,
-      };
-      fetch("http://192.168.29.35:4040/actualiP", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(producto),
+    mensaje.innerHTML = "";
+    const objetoRegistro = {
+      ID: id,
+      Nombre: nombre,
+      Pass: contra,
+      Cedula: cedula,
+      Correo: correo,
+      Numero: numero,
+      Nacimiento: fecha,
+    };
+    fetch("http://192.168.29.35:4040/actualiUsu", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(objetoRegistro),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const ResNodeJs = data;
+        console.log("Respuesta del servidor:", data);
+        if (ResNodeJs.Res === true) {
+          mensaje.innerHTML = "✔ Actualizado";
+          mensaje.style.color = "green";
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        } else {
+          mensaje.innerHTML = "❌ Error";
+          mensaje.style.color = "red";
+        }
       })
-        .then((response) => response.json())
-        .then((data) => {
-          const ResNodeJs = data;
-          console.log("Respuesta del servidor:", data);
-          if (ResNodeJs.Res === true) {
-            mensaje.innerHTML = "✔ Actualizado";
-            mensaje.style.color = "green";
-            setTimeout(() => {
-              location.reload();
-            }, 1000);
-          } else {
-            mensaje.innerHTML = "❌ Error";
-            mensaje.style.color = "red";
-          }
-        })
-        .catch((error) => console.error("Error en la solicitud:", error));
+      .catch((error) => console.error("Error en la solicitud:", error));
 
-      ////////
-    }
+    ////////
   }
 }
 

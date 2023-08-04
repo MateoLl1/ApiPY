@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@300&family=Ubuntu:wght@300&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.formulario {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.container {
+  display: flex;
+  padding: 20px;
+  width: 100%;
+}
+.btn-1 {
+  width: 20%;
+  margin: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

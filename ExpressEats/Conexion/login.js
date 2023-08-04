@@ -42,7 +42,7 @@ function Validar() {
                 Usuario: usuario,
                 Pass: password,
               };
-              fetch("http://192.168.1.100:4040/login", {
+              fetch("http://192.168.29.35:4040/login", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

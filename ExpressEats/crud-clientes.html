@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crud Clientes</title>
+    <!-- BOOSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <link rel="icon" href="./ImagenesIndex/icono.jpg">
+    <link rel="stylesheet" href="./CSS/index.css">
+    <link rel="stylesheet" href="./CSS/pedidos.css">
+    <link rel="stylesheet" href="./CSS/tablas.css">
 </head>
 
 <body>
@@ -12,7 +22,7 @@
         <nav class="navbar bg-light">
             <div class="container-fluid">
                 <a href="./pedidos.html"><img id="logo" src="./ImagenesIndex/logo_pedidosya.png" alt=""></a>
-                <a id="txtUsuario" class="navbar-brand">CRUD PRODUCTOS</a>
+                <a id="txtUsuario" class="navbar-brand">CRUD CLIENTES</a>
                 <form class="d-flex" role="search">
                     <input id="txtBuscar" class="form-control me-2" type="search" placeholder="Escribe algo.."
                         aria-label="Search">
@@ -21,6 +31,63 @@
             </div>
         </nav>
     </section>
+
+    <section class="container">
+        <h1>Administar Clientes</h1>
+        <hr>
+        <form id="form" class="formulario">
+            <input id="txtId" type="number" placeholder="id" readonly>
+            <input id="txtUsu" type="text" placeholder="Usuario">
+            <input id="txtPass" type="text" placeholder="Contraseña">
+            <input id="txtCed" type="text" placeholder="Cedula">
+            <input id="txtCorreo" type="text" placeholder="Correo">
+            <input id="txtNum" type="text" placeholder="Numero">
+            <div class="container">
+                <label>Fecha de Nacimiento</label>
+                <input id="txtFecha" type="date">
+            </div>
+
+            <div class="container-btn">
+                <button id="btnIns" class="btn btn-success">Ingresar</button>
+                <button id="btnEli" class="btn btn-danger">Eliminar</button>
+                <button id="btnAct" class="btn btn-secondary">Actualizar</button>
+                <button id="btnLimp" class="btn btn-light">Limpiar</button>
+            </div>
+            <h5 id="mensaje"></h5>
+        </form>
+    </section>
+
+    <section class="container">
+        <table class="table table-bordered border-primary" id="tablaUsuarios">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Cedula</th>
+                    <th>Correo</th>
+                    <th>Numero</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Administrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se agregarán aquí -->
+            </tbody>
+
+        </table>
+    </section>
+    <script src="Conexion/crudUs.js"></script>
+
+    <style>
+        #btn-tbl {
+            width: 100%;
+        }
+
+        .container {
+            gap: 10px;
+        }
+    </style>
 </body>
 
 </html>
