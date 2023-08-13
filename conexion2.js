@@ -105,6 +105,53 @@ async function actualizarProducto(idProducto, nombre, descripcion, precio) {
     return false; // Devolver 'false' si ocurrió un error al actualizar
   }
 }
+
+async function verificarUsuario(nombre, pass) {
+  try {
+    // Esperar a que se establezca la conexión antes de llamar al procedimiento almacenado
+    await poolConnect;
+
+    // Crear una solicitud para ejecutar el procedimiento almacenado
+    const request = pool.request();
+    request.input("nombre", sql.VarChar(50), nombre);
+    request.input("pass", sql.VarChar(50), pass);
+
+    // Ejecutar el procedimiento almacenado
+    const resultado = await request.execute("verificar_credenciales");
+    // Si la respuesta contiene al menos una fila, el usuario y la contraseña coinciden
+    return resultado.recordset.length > 0;
+  } catch (err) {
+    console.error("Error al verificar el usuario:");
+    return false;
+  }
+}
+
+async function ingresarUsuario(nombre, pass, cedula, correo, telf, feNa) {
+  try {
+    // Esperar a que se establezca la conexión antes de llamar al procedimiento almacenado
+    await poolConnect;
+
+    // Crear una solicitud para ejecutar el procedimiento almacenado
+    const request = pool.request();
+    request.input("us_nombre", sql.VarChar(50), nombre);
+    request.input("us_pass", sql.VarChar(50), pass);
+    request.input("us_cedula", sql.VarChar(10), cedula);
+    request.input("us_correo", sql.VarChar(50), correo);
+    request.input("us_telf", sql.VarChar(10), telf);
+    request.input("us_feNa", sql.Date, feNa);
+
+    // Ejecutar el procedimiento almacenado
+    const resultado = await request.execute("insertar_usuario");
+    console.log("Usuario Ingresado");
+    return true;
+  } catch (err) {
+    console.error("Error al registrar");
+    return false;
+  }
+}
+
+module.exports.verificarUsuario = verificarUsuario;
+module.exports.ingresarUsuario = ingresarUsuario;
 module.exports.insertarProducto = insertarProducto;
 module.exports.eliminarProducto = eliminarProducto;
 module.exports.obtenerProductos = obtenerProductos;

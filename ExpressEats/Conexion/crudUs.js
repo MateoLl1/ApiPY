@@ -1,3 +1,4 @@
+const servidor = "http://192.168.1.26:4040";
 const txtId = document.getElementById("txtId");
 const txtUsu = document.getElementById("txtUsu");
 const txtPass = document.getElementById("txtPass");
@@ -27,7 +28,7 @@ window.addEventListener("load", () => {
 });
 
 function cargarUsuario() {
-  fetch("http://192.168.29.35:4040/cargar", {
+  fetch(`${servidor}/cargar`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,13 +51,13 @@ function cargarUsuario() {
       data.forEach((usuario) => {
         const fila = `
           <tr>
-            <td>${usuario.id}</td>
-            <td>${usuario.usuario}</td>
-            <td>${usuario.password}</td>
-            <td>${usuario.cedula}</td>
-            <td>${usuario.correo}</td>
-            <td>${usuario.numero}</td>
-            <td>${usuario.fechaNacimiento}</td>
+            <td>${usuario.us_id}</td>
+            <td>${usuario.us_nombre}</td>
+            <td>${usuario.us_password}</td>
+            <td>${usuario.us_cedula}</td>
+            <td>${usuario.us_correo}</td>
+            <td>${usuario.us_telefono}</td>
+            <td>${usuario.us_nacimiento}</td>
             <td>
             <button type="button" class="btn btn-danger btn-sm" data-id="${usuario.id}" onclick="btnSeleccionar(this)">Seleccionar</button>
             </td>
@@ -106,7 +107,7 @@ function eliminarPro() {
     const producto = {
       ID: id,
     };
-    fetch("http://192.168.29.35:4040/EliminarUs", {
+    fetch(`${servidor}/EliminarUs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -161,7 +162,7 @@ function insertarUsuario() {
       Nacimiento: fecha,
     };
 
-    fetch("http://192.168.29.35:4040/SingIn", {
+    fetch(`${servidor}/SingIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -211,7 +212,7 @@ function actualizarProducto() {
       Numero: numero,
       Nacimiento: fecha,
     };
-    fetch("http://192.168.29.35:4040/actualiUsu", {
+    fetch(`${servidor}/actualiUsu`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

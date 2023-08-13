@@ -1,3 +1,4 @@
+const servidor = "http://192.168.1.26:4040";
 let txtNombre = document.getElementById("txtNombre");
 let txtUsuario = document.getElementById("txtUsuario");
 let txtCedula = document.getElementById("txtCedula");
@@ -54,7 +55,7 @@ function validar() {
       Nacimiento: nacimiento,
     };
 
-    fetch("http://192.168.29.35:4040/SingIn", {
+    fetch(`${servidor}/SingIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

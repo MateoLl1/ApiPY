@@ -1,3 +1,4 @@
+const servidor = "http://192.168.1.26:4040";
 const txtId = document.getElementById("txtId");
 const txtNombre = document.getElementById("txtNombre");
 const txtDes = document.getElementById("txtDes");
@@ -21,7 +22,7 @@ window.addEventListener("load", () => {
 });
 
 function cargarUsuario() {
-  fetch("http://192.168.29.35:4040/CargarP", {
+  fetch(`${servidor}/CargarP`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -91,7 +92,7 @@ function eliminarPro() {
     const producto = {
       ID: id,
     };
-    fetch("http://192.168.29.35:4040/EliminarP", {
+    fetch(`${servidor}/EliminarP`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +134,7 @@ function insertarProducto() {
       Descripcion: descri,
       Precio: precio,
     };
-    fetch("http://192.168.29.35:4040/Producto", {
+    fetch(`${servidor}/Producto`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +183,7 @@ function actualizarProducto() {
         Descripcion: descri,
         Precio: precio,
       };
-      fetch("http://192.168.29.35:4040/actualiP", {
+      fetch(`${servidor}/actualiP`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

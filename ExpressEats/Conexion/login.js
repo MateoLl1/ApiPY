@@ -1,4 +1,5 @@
 //COMPONENTES HTML
+const servidor = "http://192.168.1.26:4040";
 const txtUsu = document.getElementById("txtUsu");
 const txtPassword = document.getElementById("txtPassword");
 const btnIniciar = document.getElementById("btnIniciar");
@@ -42,7 +43,7 @@ function Validar() {
                 Usuario: usuario,
                 Pass: password,
               };
-              fetch("http://192.168.29.35:4040/login", {
+              fetch(`${servidor}/login`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

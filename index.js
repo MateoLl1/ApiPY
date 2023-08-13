@@ -36,43 +36,14 @@ app.use((req, res, next) => {
 });
 
 //Rutas
-app.post("/login", (req, res) => {
-  const nomLog = req.body.Usuario;
-  const passLog = req.body.Pass;
-  async function verificarCredenciales() {
-    try {
-      await sql.connect(config);
-      console.log("Conexión exitosa a SQL Server");
-
-      const query = `SELECT usuario, password FROM tbl_usuario WHERE usuario = '${nomLog}' AND password = '${passLog}'`;
-      const result = await new sql.Request().query(query);
-
-      return result.recordset.length > 0;
-    } catch (error) {
-      console.log("Error al conectar a SQL Server:", error);
-      return false;
-    }
-  }
-
-  //FUNCIONES
-
-  const respuesta = {
-    Res: null,
+app.post("/login", async (req, res) => {
+  const Usuario = req.body;
+  const Resultado = {
+    Res: await con2.verificarUsuario(Usuario.Usuario, Usuario.Pass),
   };
-
-  verificarCredenciales(nomLog, passLog)
-    .then((existe) => {
-      console.log(`Las credenciales ${nomLog}:${passLog} ${existe}`);
-      respuesta.Res = existe;
-      res.json(respuesta);
-    })
-    .catch((error) => {
-      console.error("Error al verificar las credenciales:", error);
-      respuesta.Res = false;
-      res.json(respuesta);
-    });
+  res.json(Resultado);
 });
-
+//
 //Traer usuarios de la base
 async function obtenerYMostrarUsuarios() {
   try {
@@ -171,7 +142,7 @@ app.post("/actualiUsu", async (req, res) => {
 app.post("/SingIn", async (req, res) => {
   const Usuario = req.body;
   const respuesta = {
-    Res: await con.insertarUsuario(
+    Res: await con2.ingresarUsuario(
       Usuario.Nombre,
       Usuario.Pass,
       Usuario.Cedula,
@@ -191,6 +162,6 @@ app.post("/EliminarUs", async (req, res) => {
   res.json(respuesta);
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, async () => {
   console.log(`\x1b[34mServidor Iniciado en ${port}\x1b[37m`);
 });

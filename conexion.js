@@ -3,7 +3,7 @@ const config = {
   user: "sa",
   password: "123456",
   server: "localhost", // Puede ser una dirección IP o el nombre del servidor
-  database: "Prueba",
+  database: "Delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
     trustServerCertificate: true, // Establece esto en true si deseas confiar en el certificado del servidor
