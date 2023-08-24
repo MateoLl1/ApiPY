@@ -12,17 +12,6 @@ app.use(express.urlencoded({ extended: false }));
 //Datos base de datos
 const con = require("./conexion");
 const con2 = require("./conexion2");
-//Credenciales SQL
-const config = {
-  user: "sa",
-  password: "123456",
-  server: "localhost",
-  database: "Prueba",
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-  },
-};
 
 //Middleware
 app.use(cors());
@@ -38,6 +27,7 @@ app.use((req, res, next) => {
 //Rutas
 app.post("/login", async (req, res) => {
   const Usuario = req.body;
+  console.log(Usuario);
   const Resultado = {
     Res: await con2.verificarUsuario(Usuario.Usuario, Usuario.Pass),
   };
