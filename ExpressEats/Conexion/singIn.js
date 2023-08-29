@@ -69,7 +69,7 @@ function validar() {
         if (ResNodeJs.Res === true) {
           mensaje.innerHTML = "✔ Registrado";
           mensaje.style.color = "green";
-          window.location.href = "./login.html";
+          window.location.href = "../Login.html";
         } else {
           mensaje.innerHTML = "❌ Error";
           mensaje.style.color = "red";
