@@ -1,4 +1,4 @@
-const servidor = "http://192.168.100.107:4040";
+const servidor = "https://mateoservice.onrender.com";
 const txtId = document.getElementById("txtId");
 const txtUsu = document.getElementById("txtUsu");
 const txtPass = document.getElementById("txtPass");
