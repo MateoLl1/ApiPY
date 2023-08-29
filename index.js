@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
   };
   res.json(Resultado);
 });
-//
+
 //Traer usuarios de la base
 async function obtenerYMostrarUsuarios() {
   try {

@@ -1,5 +1,5 @@
 //COMPONENTES HTML
-const servidor = "http://192.168.1.26:4040";
+const servidor = "http://192.168.100.107:4040";
 const txtUsu = document.getElementById("txtUsu");
 const txtPassword = document.getElementById("txtPassword");
 const btnIniciar = document.getElementById("btnIniciar");

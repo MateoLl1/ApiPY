@@ -1,4 +1,4 @@
-const servidor = "http://192.168.1.26:4040";
+const servidor = "http://192.168.100.107:4040";
 const txtId = document.getElementById("txtId");
 const txtUsu = document.getElementById("txtUsu");
 const txtPass = document.getElementById("txtPass");
