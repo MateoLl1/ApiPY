@@ -25,6 +25,15 @@ app.use((req, res, next) => {
 });
 
 //Rutas
+
+app.post("/prueba1", async (req, res) => {
+  const heroe = {
+    nombre: "Spiderman",
+    edad: 22,
+  };
+  res.json(heroe);
+});
+
 app.post("/login", async (req, res) => {
   const Usuario = req.body;
   console.log(Usuario);
