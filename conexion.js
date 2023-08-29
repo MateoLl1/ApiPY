@@ -1,8 +1,8 @@
 const sql = require("mssql");
 const config = {
-  user: "sa",
-  password: "123456",
-  server: "localhost", // Puede ser una dirección IP o el nombre del servidor
+  user: "mateo",
+  password: "Assassin6890",
+  server: "mateoservice.database.windows.net",
   database: "Delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
