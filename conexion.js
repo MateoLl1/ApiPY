@@ -1,9 +1,9 @@
 const sql = require("mssql");
 const config = {
-  user: "db_a9e3bb_delivery_admin",
+  user: "mateo",
   password: "Assassin6890",
-  server: "SQL5111.site4now.net",
-  database: "db_a9e3bb_delivery",
+  server: "mateoservice.database.windows.net",
+  database: "Delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
     trustServerCertificate: true, // Establece esto en true si deseas confiar en el certificado del servidor
