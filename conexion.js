@@ -1,8 +1,11 @@
 const sql = require("mssql");
 const config = {
-  user: "mateo",
-  password: "Assassin6890",
-  server: "mateoservice.database.windows.net",
+  // user: "mateo",
+  // password: "Assassin6890",
+  // server: "mateoservice.database.windows.net",
+  user: "sa",
+  password: "123456",
+  server: "localhost",
   database: "Delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
@@ -122,7 +125,126 @@ async function actualizarUsuario(
   }
 }
 
+//EMPRESA
+
+async function obtenerEmpresas() {
+  try {
+    const data = [];
+    // Esperar a que se establezca la conexión antes de hacer la consulta
+    await poolConnect;
+
+    // Consulta SQL
+    const consulta =
+      "select em_id,em_nombre,em_eslogan,em_imagen from tbl_empresa";
+
+    // Ejecutar la consulta
+    const resultado = await pool.request().query(consulta);
+
+    // Los datos están en el atributo recordset del resultado
+    const empresas = resultado.recordset;
+    return empresas;
+  } catch (err) {
+    console.error("Error al obtener las empresas:", err);
+  }
+}
+async function obtenerTipoEmpresas() {
+  try {
+    const data = [];
+    // Esperar a que se establezca la conexión antes de hacer la consulta
+    await poolConnect;
+
+    // Consulta SQL
+    const consulta = "select ti_e_id,ti_e_descri from tbl_tipo_emp";
+
+    // Ejecutar la consulta
+    const resultado = await pool.request().query(consulta);
+
+    // Los datos están en el atributo recordset del resultado
+    const tipoEmpresas = resultado.recordset;
+    return tipoEmpresas;
+  } catch (err) {
+    console.error("Error al obtener tipo empresas:", err);
+  }
+}
+async function insertarEmpresa(
+  nombreEm,
+  nombreAd,
+  eslogan,
+  correo,
+  password,
+  ruc,
+  imagen,
+  tipoEmpresa
+) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar el INSERT
+    await poolConnect;
+
+    // Consulta SQL INSERT parametrizada
+    const consulta = `
+      INSERT INTO tbl_empresa (
+        em_nombre,
+        em_admin,
+        em_eslogan,
+        em_correo,
+        em_password,
+        em_ruc,
+        em_imagen,
+        em_estado,
+        ti_e_id
+      )
+      VALUES (
+        @nombreEm,
+        @nombreAd,
+        @eslogan,
+        @correo,
+        @password,
+        @ruc,
+        @imagen,
+        'A',
+        @tipoEmpresa
+      )
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      nombreEm,
+      nombreAd,
+      eslogan,
+      correo,
+      password,
+      ruc,
+      imagen,
+      tipoEmpresa,
+    };
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("nombreEm", sql.NVarChar, parametros.nombreEm)
+      .input("nombreAd", sql.NVarChar, parametros.nombreAd)
+      .input("eslogan", sql.NVarChar, parametros.eslogan)
+      .input("correo", sql.NVarChar, parametros.correo)
+      .input("password", sql.NVarChar, parametros.password)
+      .input("ruc", sql.NVarChar, parametros.ruc)
+      .input("imagen", sql.NVarChar, parametros.imagen)
+      .input("tipoEmpresa", sql.Int, parametros.tipoEmpresa)
+      .query(consulta);
+
+    console.log("Empresa ingresada correctamente");
+    return true; // Devolver 'true' si el INSERT fue exitoso
+  } catch (err) {
+    console.error("Error al insertar la empresa:", err);
+    return false; // Devolver 'false' si ocurrió un error al insertar
+  }
+}
+
 module.exports.obtenerUsuarios = obtenerUsuarios;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.eliminarUsuario = eliminarUsuario;
 module.exports.actualizarUsuario = actualizarUsuario;
+
+//empresa modulos
+module.exports.obtenerTipoEmpresas = obtenerTipoEmpresas;
+module.exports.insertarEmpresa = insertarEmpresa;
+module.exports.obtenerEmpresas = obtenerEmpresas;

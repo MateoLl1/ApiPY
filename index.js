@@ -26,15 +26,6 @@ app.use((req, res, next) => {
 
 //Rutas
 
-app.post("/prueba1", async (req, res) => {
-  const heroe = {
-    nombre: "Spiderman",
-    apellido: "Parker",
-    edad: 22,
-  };
-  res.json(heroe);
-});
-
 app.post("/login", async (req, res) => {
   const Usuario = req.body;
   console.log(Usuario);
@@ -158,6 +149,49 @@ app.post("/EliminarUs", async (req, res) => {
   const Usuario = req.body;
   const respuesta = {
     Res: await con.eliminarUsuario(Usuario.ID),
+  };
+  res.json(respuesta);
+});
+
+//EMPRESA CRUD
+
+app.post("/tipoEmpresa", async (req, res) => {
+  try {
+    // Llamamos a la función obtenerYMostrarUsuarios()
+    const resultado = await con.obtenerTipoEmpresas();
+
+    // Enviamos el resultado en la respuesta JSON
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error al obtener y mostrar tipo empresas:", error);
+    res.status(500).json({ error: "Error al obtener y mostrar tipo empresas" });
+  }
+});
+
+app.post("/cargarEmpresa", async (req, res) => {
+  try {
+    const resultado = await con.obtenerEmpresas();
+
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error al obtener las empresas", error);
+    res.status(500).json({ error: "Error al obtener las empresas" });
+  }
+});
+
+app.post("/registrarEmpresa", async (req, res) => {
+  const empresa = req.body;
+  const respuesta = {
+    Res: await con.insertarEmpresa(
+      empresa.nombreEmpresa,
+      empresa.nombreAdmin,
+      empresa.eslogan,
+      empresa.correo,
+      empresa.password,
+      empresa.ruc,
+      empresa.imagen,
+      empresa.tipoEmpresa
+    ),
   };
   res.json(respuesta);
 });
