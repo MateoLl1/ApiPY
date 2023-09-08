@@ -24,108 +24,20 @@ poolConnect
     console.error("Error al conectar a la base de datos:", err);
   });
 
-async function obtenerUsuarios() {
-  try {
-    const data = [];
-    // Esperar a que se establezca la conexión antes de hacer la consulta
-    await poolConnect;
-
-    // Consulta SQL
-    const consulta = "SELECT * FROM tbl_usuario";
-
-    // Ejecutar la consulta
-    const resultado = await pool.request().query(consulta);
-
-    // Los datos están en el atributo recordset del resultado
-    const usuarios = resultado.recordset;
-    //console.log(usuarios);
-
-    return usuarios;
-    // Hacer lo que necesites con el objeto 'usuarios' aquí
-  } catch (err) {
-    console.error("Error al obtener usuarios:", err);
-  }
-}
-
-async function insertarUsuario(
-  usuario,
-  password,
-  cedula,
-  correo,
-  numero,
-  fechaNacimiento
-) {
-  try {
-    // Esperar a que se establezca la conexión antes de realizar el INSERT
-    await poolConnect;
-
-    // Consulta SQL INSERT
-    const consulta = `INSERT INTO tbl_usuario (usuario, password, cedula, correo, numero, fechaNacimiento)
-                      VALUES ('${usuario}', '${password}', '${cedula}', '${correo}', '${numero}', '${fechaNacimiento}')`;
-
-    // Ejecutar la consulta
-    await pool.request().query(consulta);
-
-    console.log("Nuevo usuario insertado correctamente");
-    return true; // Devolver 'true' si el INSERT fue exitoso
-  } catch (err) {
-    console.error("Error al insertar el usuario:", err);
-    return false; // Devolver 'false' si ocurrió un error al insertar
-  }
-}
-
-async function eliminarUsuario(idProducto) {
-  try {
-    // Esperar a que se establezca la conexión antes de hacer la eliminación
-    await poolConnect;
-
-    // Consulta SQL para eliminar el producto con el ID proporcionado
-    const consulta = `DELETE FROM tbl_usuario WHERE id = ${idProducto}`;
-
-    // Ejecutar la consulta
-    await pool.request().query(consulta);
-
-    console.log("Producto eliminado correctamente");
-    return true; // Devolver 'true' si se eliminó correctamente
-  } catch (err) {
-    console.error("Error al eliminar el producto:", err);
-    return false; // Devolver 'false' si ocurrió un error al eliminar
-  }
-}
-
-async function actualizarUsuario(
-  idUsuario,
-  usuario,
-  password,
-  cedula,
-  correo,
-  numero,
-  fechaNacimiento
-) {
-  try {
-    // Esperar a que se establezca la conexión antes de hacer la actualización
-    await poolConnect;
-
-    // Consulta SQL para la actualización
-    const consulta = `UPDATE tbl_usuario
-                      SET usuario = '${usuario}',
-                          password = '${password}',
-                          cedula = '${cedula}',
-                          correo = '${correo}',
-                          numero = '${numero}',
-                          fechaNacimiento = '${fechaNacimiento}'
-                      WHERE id = '${idUsuario}'`;
-
-    await pool.request().query(consulta);
-    console.log("Usuario actualizado correctamente");
-    return true; // Devolver 'true' si la actualización fue exitosa
-  } catch (err) {
-    console.error("Error al actualizar el usuario:", err);
-    return false; // Devolver 'false' si ocurrió un error al actualizar
-  }
-}
-
 //EMPRESA
+async function idEmpresa(id) {
+  try {
+    await poolConnect;
+    const consulta = "SELECT * FROM tbl_empresa WHERE em_id = @id";
+    const request = pool.request();
+    request.input("id", id);
+    const resultado = await request.query(consulta);
+    const empresa = resultado.recordset;
+    return empresa;
+  } catch (err) {
+    console.error("Error al obtener las empresas:", err);
+  }
+}
 
 async function obtenerEmpresas() {
   try {
@@ -239,12 +151,250 @@ async function insertarEmpresa(
   }
 }
 
-module.exports.obtenerUsuarios = obtenerUsuarios;
-module.exports.insertarUsuario = insertarUsuario;
-module.exports.eliminarUsuario = eliminarUsuario;
-module.exports.actualizarUsuario = actualizarUsuario;
+async function insertarProducto(
+  nombre,
+  descripcion,
+  precio,
+  imagen,
+  idEmpresa
+) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar el INSERT
+    await poolConnect;
+
+    // Consulta SQL INSERT parametrizada
+    const consulta = `
+    insert into tbl_producto (pro_nombre,pro_descripcion,pro_imagen,pro_precio,pro_estado,em_id)
+    values(@nombre,@descripcion,@imagen,@precio,'A',@idEmpresa)
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      nombre,
+      descripcion,
+      precio,
+      idEmpresa,
+      imagen,
+    };
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("nombre", sql.NVarChar, parametros.nombre)
+      .input("descripcion", sql.NVarChar, parametros.descripcion)
+      .input("imagen", sql.NVarChar, parametros.imagen)
+      .input("precio", sql.Float, parametros.precio)
+      .input("idEmpresa", sql.Int, parametros.idEmpresa)
+      .query(consulta);
+
+    console.log("Producto ingresado");
+    return true; // Devolver 'true' si el INSERT fue exitoso
+  } catch (err) {
+    console.error("Error ingresado producto ", err);
+    return false; // Devolver 'false' si ocurrió un error al insertar
+  }
+}
+
+async function cargarProductos(id) {
+  try {
+    await poolConnect;
+    const consulta = "SELECT * FROM tbl_producto WHERE em_id = @id";
+    const request = pool.request();
+    request.input("id", id);
+    const resultado = await request.query(consulta);
+    const empresa = resultado.recordset;
+    return empresa;
+  } catch (err) {
+    console.error("Error al obtener las empresas:", err);
+  }
+}
+
+async function actualizarProducto(
+  nombreProducto,
+  descripcion,
+  precio,
+  imagen,
+  idProducto,
+  idEmpresa
+) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar la actualización
+    await poolConnect;
+
+    // Consulta SQL UPDATE parametrizada con WHERE
+    const consulta = `
+    UPDATE tbl_producto
+    SET pro_nombre = @nombre,
+        pro_descripcion = @descripcion,
+        pro_imagen = @imagen,
+        pro_precio = @precio,
+        em_id = @idEmpresa
+    WHERE pro_id = @idProducto
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      idProducto,
+      nombreProducto,
+      descripcion,
+      precio,
+      imagen,
+      idEmpresa,
+    };
+    console.log(parametros);
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("idProducto", sql.Int, parametros.idProducto)
+      .input("nombre", sql.NVarChar, parametros.nombreProducto)
+      .input("descripcion", sql.NVarChar, parametros.descripcion)
+      .input("imagen", sql.NVarChar, parametros.imagen)
+      .input("precio", sql.Float, parametros.precio)
+      .input("idEmpresa", sql.Int, parametros.idEmpresa)
+      .query(consulta);
+    console.log("Producto actualizado");
+    return true;
+  } catch (err) {
+    console.error("Error al actualizar producto ", err);
+    return false;
+  }
+}
+
+async function eliminarProducto(idProducto) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar la eliminación
+    await poolConnect;
+
+    // Consulta SQL DELETE parametrizada con WHERE
+    const consulta = `
+    DELETE FROM tbl_producto
+    WHERE pro_id = @idProducto
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      idProducto,
+    };
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("idProducto", sql.Int, parametros.idProducto)
+      .query(consulta);
+
+    console.log("Producto eliminado");
+    return true; // Devolver 'true' si la eliminación fue exitosa
+  } catch (err) {
+    console.error("Error al eliminar producto ", err);
+    return false; // Devolver 'false' si ocurrió un error al eliminar
+  }
+}
+
+async function actualizarEmpresa(
+  idEmpresa,
+  nombreEmpresa,
+  nombreAdmin,
+  eslogan,
+  correo,
+  password,
+  ruc,
+  imagen,
+  tipoEmpresa
+) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar la actualización
+    await poolConnect;
+
+    // Consulta SQL UPDATE parametrizada con WHERE
+    const consulta = `
+    UPDATE tbl_empresa
+    SET em_nombre = @nombre,
+        em_admin = @nombreAdmin,
+        em_eslogan = @eslogan,
+        em_correo = @correo,
+        em_password = @password,
+        em_ruc = @ruc,
+        em_imagen = @imagen,
+        ti_e_id = @tiEmpresa
+    WHERE em_id = @em_id
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      idEmpresa,
+      nombreEmpresa,
+      nombreAdmin,
+      eslogan,
+      correo,
+      password,
+      ruc,
+      imagen,
+      tipoEmpresa,
+    };
+    console.log(parametros);
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("em_id", sql.Int, parametros.idEmpresa)
+      .input("nombre", sql.NVarChar, parametros.nombreEmpresa)
+      .input("nombreAdmin", sql.NVarChar, parametros.nombreAdmin)
+      .input("eslogan", sql.NVarChar, parametros.eslogan)
+      .input("correo", sql.NVarChar, parametros.correo)
+      .input("password", sql.NVarChar, parametros.password)
+      .input("ruc", sql.NVarChar, parametros.ruc)
+      .input("imagen", sql.NVarChar, parametros.imagen)
+      .input("tiEmpresa", sql.Int, parametros.tipoEmpresa)
+      .query(consulta);
+    console.log("Empresa actualizada");
+    return true;
+  } catch (err) {
+    console.error("Error al actualizar empresa ", err);
+    return false;
+  }
+}
+
+async function eliminarEmpresa(idEmpresa) {
+  try {
+    // Esperar a que se establezca la conexión antes de realizar la eliminación
+    await poolConnect;
+
+    // Consulta SQL DELETE parametrizada con WHERE
+    const consulta = `
+    DELETE FROM tbl_empresa
+    WHERE em_id = @idEmpresa
+    `;
+
+    // Crear un objeto de parámetros
+    const parametros = {
+      idEmpresa,
+    };
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("idEmpresa", sql.Int, parametros.idEmpresa)
+      .query(consulta);
+
+    console.log("Empresa eliminada");
+    return true; // Devolver 'true' si la eliminación fue exitosa
+  } catch (err) {
+    console.error("Error al eliminar empresa ", err);
+    return false; // Devolver 'false' si ocurrió un error al eliminar
+  }
+}
 
 //empresa modulos
 module.exports.obtenerTipoEmpresas = obtenerTipoEmpresas;
 module.exports.insertarEmpresa = insertarEmpresa;
 module.exports.obtenerEmpresas = obtenerEmpresas;
+module.exports.actualizarEmpresa = actualizarEmpresa;
+module.exports.idEmpresa = idEmpresa;
+module.exports.eliminarEmpresa = eliminarEmpresa;
+
+//PRODUCTOS
+module.exports.insertarProducto = insertarProducto;
+module.exports.cargarProductos = cargarProductos;
+module.exports.actualizarProducto = actualizarProducto;
+module.exports.eliminarProducto = eliminarProducto;

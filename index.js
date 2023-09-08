@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 
 //Rutas
 
+//USUARIO CRUD
 app.post("/login", async (req, res) => {
   const Usuario = req.body;
   console.log(Usuario);
@@ -33,124 +34,6 @@ app.post("/login", async (req, res) => {
     Res: await con2.verificarUsuario(Usuario.Usuario, Usuario.Pass),
   };
   res.json(Resultado);
-});
-
-//Traer usuarios de la base
-async function obtenerYMostrarUsuarios() {
-  try {
-    const datos = await con.obtenerUsuarios();
-    return datos;
-  } catch (error) {
-    console.error("Error al obtener los usuarios:", error);
-  }
-}
-async function obtenerYMostrarProducto() {
-  try {
-    const datos = await con2.obtenerProductos();
-    return datos;
-  } catch (error) {
-    console.error("Error al obtener los usuarios:", error);
-  }
-}
-//Carga los clientes
-app.post("/Cargar", async (req, res) => {
-  try {
-    // Llamamos a la función obtenerYMostrarUsuarios()
-    const resultado = await obtenerYMostrarUsuarios();
-
-    // Enviamos el resultado en la respuesta JSON
-    res.json(resultado);
-  } catch (error) {
-    console.error("Error al obtener y mostrar usuarios:", error);
-    res.status(500).json({ error: "Error al obtener y mostrar usuarios" });
-  }
-});
-//Carga los productos
-app.post("/CargarP", async (req, res) => {
-  try {
-    // Llamamos a la función obtenerYMostrarUsuarios()
-    const resultado = await obtenerYMostrarProducto();
-
-    // Enviamos el resultado en la respuesta JSON
-    res.json(resultado);
-  } catch (error) {
-    console.error("Error al obtener y mostrar usuarios:", error);
-    res.status(500).json({ error: "Error al obtener y mostrar usuarios" });
-  }
-});
-//Inserta Productos
-app.post("/Producto", async (req, res) => {
-  const Producto = req.body;
-  const valor = await con2.insertarProducto(
-    Producto.Nombre,
-    Producto.Descripcion,
-    Producto.Precio
-  );
-  const respuesta = {
-    Res: valor,
-  };
-  res.json(respuesta);
-});
-//Elimina Productos
-app.post("/EliminarP", async (req, res) => {
-  const Producto = req.body;
-  console.log(`Registro a eliminar ${Producto.ID}`);
-  const respuesta = { Res: await con2.eliminarProducto(Producto.ID) };
-  res.json(respuesta);
-});
-
-app.post("/actualiP", async (req, res) => {
-  const Producto = req.body;
-  console.log(`Registro a Actualizar ${Producto.ID}`);
-  const respuesta = {
-    Res: await con2.actualizarProducto(
-      Producto.ID,
-      Producto.Nombre,
-      Producto.Descripcion,
-      Producto.Precio
-    ),
-  };
-  res.json(respuesta);
-});
-
-app.post("/actualiUsu", async (req, res) => {
-  const Usuario = req.body;
-  console.log(`Registro a Actualizar ${Usuario.ID}`);
-  const respuesta = {
-    Res: await con.actualizarUsuario(
-      Usuario.ID,
-      Usuario.Nombre,
-      Usuario.Pass,
-      Usuario.Cedula,
-      Usuario.Correo,
-      Usuario.Numero,
-      Usuario.Nacimiento
-    ),
-  };
-  res.json(respuesta);
-});
-
-app.post("/SingIn", async (req, res) => {
-  const Usuario = req.body;
-  const respuesta = {
-    Res: await con2.ingresarUsuario(
-      Usuario.Nombre,
-      Usuario.Pass,
-      Usuario.Cedula,
-      Usuario.Correo,
-      Usuario.Numero,
-      Usuario.Nacimiento
-    ),
-  };
-  res.json(respuesta);
-});
-
-app.post("/EliminarUs", async (req, res) => {
-  const Usuario = req.body;
-  const respuesta = {
-    Res: await con.eliminarUsuario(Usuario.ID),
-  };
-  res.json(respuesta);
 });
 
 //EMPRESA CRUD
@@ -192,6 +75,91 @@ app.post("/registrarEmpresa", async (req, res) => {
       empresa.imagen,
       empresa.tipoEmpresa
     ),
+  };
+  res.json(respuesta);
+});
+
+app.post("/idEmpresa", async (req, res) => {
+  const empresa = req.body;
+  const respuesta = {
+    Res: await con.idEmpresa(empresa.id),
+  };
+  res.json(respuesta);
+});
+
+//PRODUCTOS CRUD
+
+app.post("/insertarProducto", async (req, res) => {
+  const productos = req.body;
+  const respuesta = {
+    Res: await con.insertarProducto(
+      productos.nombre,
+      productos.descripcion,
+      productos.precio,
+      productos.imagen,
+      productos.idEmpresa
+    ),
+  };
+  res.json(respuesta);
+});
+
+app.post("/idProductos", async (req, res) => {
+  const empresa = req.body;
+  try {
+    const resultado = await con.cargarProductos(empresa.id);
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error cargar producto", error);
+    res.status(500).json({ error: "Error al obtener las productos" });
+  }
+});
+
+app.post("/actualizarProducto", async (req, res) => {
+  const productos = req.body;
+  const respuesta = {
+    Res: await con.actualizarProducto(
+      productos.nombreProducto,
+      productos.descripcion,
+      productos.precio,
+      productos.imagen,
+      productos.idProducto,
+      productos.idEmpresa
+    ),
+  };
+  res.json(respuesta);
+});
+
+app.post("/eliminarProducto", async (req, res) => {
+  const productos = req.body;
+  const respuesta = {
+    Res: await con.eliminarProducto(productos.idProducto),
+  };
+  res.json(respuesta);
+});
+
+app.post("/actualizarEmpresa", async (req, res) => {
+  const empresa = req.body;
+  const respuesta = {
+    Res: await con.actualizarEmpresa(
+      empresa.idEmpresa,
+      empresa.nombreEmpresa,
+      empresa.nombreAdmin,
+      empresa.eslogan,
+      empresa.correo,
+      empresa.password,
+      empresa.ruc,
+      empresa.imagen,
+      empresa.tipoEmpresa
+    ),
+  };
+  res.json(respuesta);
+});
+
+app.post("/eliminarEmpresa", async (req, res) => {
+  const empresa = req.body;
+  console.log(empresa);
+  const respuesta = {
+    Res: await con.eliminarEmpresa(empresa.idEmpresa),
   };
   res.json(respuesta);
 });
