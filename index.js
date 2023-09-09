@@ -38,16 +38,17 @@ app.post("/login", async (req, res) => {
 
 app.post("/registrarUsuario", async (req, res) => {
   const Usuario = req.body;
+  console.log(Usuario);
   const respuesta = {
-    Res: await con2.inser(
-      Usuario.nombreEmpresa,
-      Usuario.nombreAdmin,
-      Usuario.eslogan,
-      Usuario.correo,
+    Res: await con2.insertarUsuario(
+      Usuario.nombre,
+      Usuario.nickname,
       Usuario.password,
-      Usuario.ruc,
       Usuario.imagen,
-      Usuario.tipoEmpresa
+      Usuario.cedula,
+      Usuario.telefono,
+      Usuario.Nacimiento,
+      Usuario.Hoy
     ),
   };
   res.json(respuesta);

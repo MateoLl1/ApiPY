@@ -1,12 +1,12 @@
 const sql = require("mssql");
 const config = {
-  // user: "mateo",
-  // password: "Assassin6890",
-  // server: "mateoservice.database.windows.net",
+  user: "mateo",
+  password: "Assassin6890",
+  server: "mateo.database.windows.net",
   user: "sa",
   password: "123456",
   server: "localhost",
-  database: "Delivery",
+  database: "delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
     trustServerCertificate: true, // Establece esto en true si deseas confiar en el certificado del servidor
@@ -43,75 +43,37 @@ async function verificarUsuario(nombre, pass) {
 }
 
 async function insertarUsuario(
-  nombreEm,
-  nombreAd,
-  eslogan,
-  correo,
+  nombre,
+  nickname,
   password,
-  ruc,
   imagen,
-  tipoEmpresa
+  cedula,
+  telefono,
+  Nacimiento,
+  Hoy
 ) {
   try {
-    // Esperar a que se establezca la conexión antes de realizar el INSERT
-    await poolConnect;
+    await sql.connect(config);
 
-    // Consulta SQL INSERT parametrizada
-    const consulta = `
-      INSERT INTO tbl_usuario (
-        em_nombre,
-        em_admin,
-        em_eslogan,
-        em_correo,
-        em_password,
-        em_ruc,
-        em_imagen,
-        em_estado,
-        ti_e_id
-      )
-      VALUES (
-        @nombreEm,
-        @nombreAd,
-        @eslogan,
-        @correo,
-        @password,
-        @ruc,
-        @imagen,
-        'A',
-        @tipoEmpresa
-      )
-    `;
+    const request = new sql.Request();
 
-    // Crear un objeto de parámetros
-    const parametros = {
-      nombreEm,
-      nombreAd,
-      eslogan,
-      correo,
-      password,
-      ruc,
-      imagen,
-      tipoEmpresa,
-    };
+    request.input("us_nombre", sql.VarChar(50), nombre);
+    request.input("us_nick", sql.VarChar(50), nickname);
+    request.input("us_pass", sql.VarChar(50), password);
+    request.input("us_imagen", sql.VarChar(50), imagen);
+    request.input("us_cedula", sql.VarChar(10), cedula);
+    request.input("us_telf", sql.VarChar(10), telefono);
+    request.input("us_feNa", sql.Date, new Date(Nacimiento));
+    request.input("us_registro", sql.Date, new Date());
 
-    // Ejecutar la consulta con parámetros
-    await pool
-      .request()
-      .input("nombreEm", sql.NVarChar, parametros.nombreEm)
-      .input("nombreAd", sql.NVarChar, parametros.nombreAd)
-      .input("eslogan", sql.NVarChar, parametros.eslogan)
-      .input("correo", sql.NVarChar, parametros.correo)
-      .input("password", sql.NVarChar, parametros.password)
-      .input("ruc", sql.NVarChar, parametros.ruc)
-      .input("imagen", sql.NVarChar, parametros.imagen)
-      .input("tipoEmpresa", sql.Int, parametros.tipoEmpresa)
-      .query(consulta);
-
-    console.log("Usuario registrado");
-    return true; // Devolver 'true' si el INSERT fue exitoso
+    const result = await request.execute("insertar_usuario");
+    console.error("Usuario ingresado");
+    return true;
   } catch (err) {
-    console.error("Error al ingresar usuario", err);
-    return false; // Devolver 'false' si ocurrió un error al insertar
+    console.error("Error al ejecutar el procedimiento almacenado:", err);
+    return false;
+  } finally {
+    sql.close();
   }
 }
 
