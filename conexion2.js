@@ -42,29 +42,79 @@ async function verificarUsuario(nombre, pass) {
   }
 }
 
-async function ingresarUsuario(nombre, pass, cedula, correo, telf, feNa) {
+async function insertarUsuario(
+  nombreEm,
+  nombreAd,
+  eslogan,
+  correo,
+  password,
+  ruc,
+  imagen,
+  tipoEmpresa
+) {
   try {
-    // Esperar a que se establezca la conexión antes de llamar al procedimiento almacenado
+    // Esperar a que se establezca la conexión antes de realizar el INSERT
     await poolConnect;
 
-    // Crear una solicitud para ejecutar el procedimiento almacenado
-    const request = pool.request();
-    request.input("us_nombre", sql.VarChar(50), nombre);
-    request.input("us_pass", sql.VarChar(50), pass);
-    request.input("us_cedula", sql.VarChar(10), cedula);
-    request.input("us_correo", sql.VarChar(50), correo);
-    request.input("us_telf", sql.VarChar(10), telf);
-    request.input("us_feNa", sql.Date, feNa);
+    // Consulta SQL INSERT parametrizada
+    const consulta = `
+      INSERT INTO tbl_usuario (
+        em_nombre,
+        em_admin,
+        em_eslogan,
+        em_correo,
+        em_password,
+        em_ruc,
+        em_imagen,
+        em_estado,
+        ti_e_id
+      )
+      VALUES (
+        @nombreEm,
+        @nombreAd,
+        @eslogan,
+        @correo,
+        @password,
+        @ruc,
+        @imagen,
+        'A',
+        @tipoEmpresa
+      )
+    `;
 
-    // Ejecutar el procedimiento almacenado
-    const resultado = await request.execute("insertar_usuario");
-    console.log("Usuario Ingresado");
-    return true;
+    // Crear un objeto de parámetros
+    const parametros = {
+      nombreEm,
+      nombreAd,
+      eslogan,
+      correo,
+      password,
+      ruc,
+      imagen,
+      tipoEmpresa,
+    };
+
+    // Ejecutar la consulta con parámetros
+    await pool
+      .request()
+      .input("nombreEm", sql.NVarChar, parametros.nombreEm)
+      .input("nombreAd", sql.NVarChar, parametros.nombreAd)
+      .input("eslogan", sql.NVarChar, parametros.eslogan)
+      .input("correo", sql.NVarChar, parametros.correo)
+      .input("password", sql.NVarChar, parametros.password)
+      .input("ruc", sql.NVarChar, parametros.ruc)
+      .input("imagen", sql.NVarChar, parametros.imagen)
+      .input("tipoEmpresa", sql.Int, parametros.tipoEmpresa)
+      .query(consulta);
+
+    console.log("Usuario registrado");
+    return true; // Devolver 'true' si el INSERT fue exitoso
   } catch (err) {
-    console.error("Error al registrar");
-    return false;
+    console.error("Error al ingresar usuario", err);
+    return false; // Devolver 'false' si ocurrió un error al insertar
   }
 }
 
+///USUARIO
 module.exports.verificarUsuario = verificarUsuario;
-module.exports.ingresarUsuario = ingresarUsuario;
+module.exports.insertarUsuario = insertarUsuario;

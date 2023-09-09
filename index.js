@@ -36,6 +36,23 @@ app.post("/login", async (req, res) => {
   res.json(Resultado);
 });
 
+app.post("/registrarUsuario", async (req, res) => {
+  const Usuario = req.body;
+  const respuesta = {
+    Res: await con2.inser(
+      Usuario.nombreEmpresa,
+      Usuario.nombreAdmin,
+      Usuario.eslogan,
+      Usuario.correo,
+      Usuario.password,
+      Usuario.ruc,
+      Usuario.imagen,
+      Usuario.tipoEmpresa
+    ),
+  };
+  res.json(respuesta);
+});
+
 //EMPRESA CRUD
 
 app.post("/tipoEmpresa", async (req, res) => {
