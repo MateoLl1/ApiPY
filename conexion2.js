@@ -3,9 +3,9 @@ const config = {
   user: "mateo",
   password: "Assassin6890",
   server: "mateo.database.windows.net",
-  user: "sa",
-  password: "123456",
-  server: "localhost",
+  // user: "sa",
+  // password: "123456",
+  // server: "localhost",
   database: "delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
