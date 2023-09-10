@@ -1,11 +1,11 @@
 const sql = require("mssql");
 const config = {
-  user: "mateo",
-  password: "Assassin6890",
-  server: "mateo.database.windows.net",
-  // user: "sa",
-  // password: "123456",
-  // server: "localhost",
+  // user: "mateo",
+  // password: "Assassin6890",
+  // server: "mateo.database.windows.net",
+  user: "sa",
+  password: "123456",
+  server: "localhost",
   database: "delivery",
   options: {
     encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
@@ -32,10 +32,15 @@ async function verificarUsuario(nombre, pass) {
     request.input("nombre", sql.VarChar(50), nombre);
     request.input("pass", sql.VarChar(50), pass);
 
-    // Ejecutar el procedimiento almacenado
     const resultado = await request.execute("verificar_credenciales");
-    // Si la respuesta contiene al menos una fila, el usuario y la contraseña coinciden
-    return resultado.recordset.length > 0;
+    const usuario = resultado.recordset[0];
+
+    // Si la respuesta contiene al menos un registro, el usuario y la contraseña coinciden
+    if (usuario) {
+      return { success: true, usuario };
+    } else {
+      return { success: true, usuario: null };
+    }
   } catch (err) {
     console.error("Error al verificar el usuario:");
     return false;
@@ -67,8 +72,13 @@ async function insertarUsuario(
     request.input("us_registro", sql.Date, new Date());
 
     const result = await request.execute("insertar_usuario");
-    console.error("Usuario ingresado");
-    return true;
+    const usuario = result.recordset[0];
+
+    if (usuario) {
+      return { success: true, usuario };
+    } else {
+      return { success: true, usuario: null };
+    }
   } catch (err) {
     console.error("Error al ejecutar el procedimiento almacenado:", err);
     return false;
