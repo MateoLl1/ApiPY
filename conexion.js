@@ -1,20 +1,38 @@
 const sql = require("mssql");
-const config = {
+const configCloud = {
+  user: "mateo",
+  password: "Assassin6890",
+  server: "mssql-144847-0.cloudclusters.net",
+  port: 19465,
+  database: "delivery",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
+const configAzure = {
   user: "mateo",
   password: "Assassin6890",
   server: "mateo.database.windows.net",
-  // user: "sa",
-  // password: "123456",
-  // server: "localhost",
   database: "delivery",
   options: {
-    encrypt: true, // Establece esto en true si estás utilizando una conexión segura (HTTPS)
-    trustServerCertificate: true, // Establece esto en true si deseas confiar en el certificado del servidor
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
+const config = {
+  user: "sa",
+  password: "123456",
+  server: "localhost",
+  database: "delivery",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
   },
 };
 
 // Crear una instancia del cliente SQL Server
-const pool = new sql.ConnectionPool(config);
+const pool = new sql.ConnectionPool(configCloud);
 const poolConnect = pool.connect();
 poolConnect
   .then(() => {
