@@ -182,6 +182,21 @@ app.post("/eliminarEmpresa", async (req, res) => {
   res.json(respuesta);
 });
 
+//FACTURA
+app.post("/generarFactura", async (req, res) => {
+  const factura = req.body;
+  const respuesta = {
+    Res: await con2.insertarFactura(
+      factura.descripcionProducto,
+      factura.descripcionPrecio,
+      factura.total,
+      factura.usuarioId,
+      factura.empresaId
+    ),
+  };
+  res.json(respuesta);
+});
+
 const server = app.listen(port, async () => {
   console.log(`\x1b[34mServidor Iniciado en ${port}\x1b[37m`);
 });

@@ -105,6 +105,37 @@ async function insertarUsuario(
   }
 }
 
+async function insertarFactura(
+  descripcionProducto,
+  descripcionPrecio,
+  total,
+  usuarioId,
+  empresaId
+) {
+  try {
+    const pool = await poolConnect;
+
+    const consulta = `
+      INSERT INTO tbl_factura (fac_fecha, fac_des_pro, fac_des_pre, fac_total, us_id, em_id)
+      VALUES (@fac_fecha, @fac_des_pro, @fac_des_pre, @fac_total, @us_id, @em_id)
+    `;
+    const request = pool.request();
+    request.input("fac_fecha", sql.Date, new Date());
+    request.input("fac_des_pro", sql.NVarChar(255), descripcionProducto);
+    request.input("fac_des_pre", sql.NVarChar(255), descripcionPrecio);
+    request.input("fac_total", sql.Decimal(18, 2), total);
+    request.input("us_id", sql.Int, usuarioId);
+    request.input("em_id", sql.Int, empresaId);
+    const result = await request.query(consulta);
+    console.log("Factura Ingresada");
+    return true;
+  } catch (err) {
+    console.error("Error al insertar la factura:", err);
+    return false;
+  }
+}
+
 ///USUARIO
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
+module.exports.insertarFactura = insertarFactura;
