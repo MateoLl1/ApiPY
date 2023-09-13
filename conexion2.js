@@ -167,7 +167,8 @@ async function obtenerUsuarioPorId(userId) {
 
     const query = "SELECT * FROM tbl_usuario WHERE us_id = @us_id";
     const result = await request.query(query);
-    return result.recordset[0]; // Devolvemos el primer registro (si existe)
+    const data = resultado.recordset;
+    return data;
   } catch (err) {
     console.error("Error al ejecutar la consulta SQL:", err);
     return null; // Devolvemos null en caso de error
