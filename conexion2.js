@@ -160,19 +160,20 @@ async function obtenerFacturaPorId(id) {
 
 async function obtenerUsuarioPorId(userId) {
   try {
-    await poolConnect;
+    const pool = await poolConnect; // Obtener una conexión desde el pool
 
-    const request = new sql.Request();
+    const request = pool.request();
     request.input("us_id", sql.Int, userId);
 
     const query = "SELECT * FROM tbl_usuario WHERE us_id = @us_id";
     const result = await request.query(query);
-    return result;
+    return result.recordset[0]; // Devolvemos el primer registro (si existe)
   } catch (err) {
     console.error("Error al ejecutar la consulta SQL:", err);
-    return false;
+    return null; // Devolvemos null en caso de error
   }
 }
+
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.insertarFactura = insertarFactura;
