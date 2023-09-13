@@ -185,7 +185,7 @@ async function actualizarUsuario(
   fechaN
 ) {
   try {
-    const pool = await sql.connect(config);
+    const pool = await poolConnect;
     const request = pool.request();
 
     // Query de actualización
