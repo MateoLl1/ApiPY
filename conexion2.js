@@ -140,7 +140,7 @@ async function obtenerFacturaPorId(id) {
     const pool = await poolConnect;
 
     const consulta = `
-      SELECT * FROM tbl_factura WHERE fac_id = @id
+      SELECT * FROM tbl_factura WHERE us_id = @id
     `;
 
     const request = pool.request();
