@@ -228,6 +228,14 @@ app.post("/facturaId", async (req, res) => {
   res.json(respuesta);
 });
 
+app.post("/facturaIdEmpresa", async (req, res) => {
+  const factura = req.body;
+  const respuesta = {
+    Res: await con2.obtenerVentasEmpresa(factura.em_id),
+  };
+  res.json(respuesta);
+});
+
 const server = app.listen(port, async () => {
   console.log(`\x1b[34mServidor Iniciado en ${port}\x1b[37m`);
 });

@@ -217,9 +217,31 @@ async function actualizarUsuario(
   }
 }
 
+async function obtenerVentasEmpresa(id) {
+  try {
+    await poolConnect;
+
+    const consulta = `
+      SELECT * FROM tbl_factura WHERE em_id = @id
+    `;
+
+    const request = pool.request();
+    request.input("id", sql.Int, id);
+
+    const resultado = await request.query(consulta);
+    const factura = resultado.recordset;
+
+    return factura;
+  } catch (err) {
+    console.error("Error al obtener informe", err);
+    return false;
+  }
+}
+
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.insertarFactura = insertarFactura;
 module.exports.obtenerFacturaPorId = obtenerFacturaPorId;
 module.exports.obtenerUsuarioPorId = obtenerUsuarioPorId;
 module.exports.actualizarUsuario = actualizarUsuario;
+module.exports.obtenerVentasEmpresa = obtenerVentasEmpresa;
