@@ -157,7 +157,24 @@ async function obtenerFacturaPorId(id) {
 }
 
 ///USUARIO
+
+async function obtenerUsuarioPorId(userId) {
+  try {
+    const pool = await poolConnect;
+
+    const request = new sql.Request();
+    request.input("us_id", sql.Int, userId);
+
+    const query = "SELECT * FROM tbl_usuario WHERE us_id = @us_id";
+    const result = await request.query(query);
+    return result;
+  } catch (err) {
+    console.error("Error al ejecutar la consulta SQL:", err);
+    return false;
+  }
+}
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.insertarFactura = insertarFactura;
 module.exports.obtenerFacturaPorId = obtenerFacturaPorId;
+module.exports.obtenerUsuarioPorId = obtenerUsuarioPorId;

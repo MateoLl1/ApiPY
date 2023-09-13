@@ -54,6 +54,14 @@ app.post("/registrarUsuario", async (req, res) => {
   res.json(respuesta);
 });
 
+app.post("/idUsuario", async (req, res) => {
+  const usuario = req.body;
+  const respuesta = {
+    Res: await con2.obtenerUsuarioPorId(usuario.id),
+  };
+  res.json(respuesta);
+});
+
 //EMPRESA CRUD
 
 app.post("/tipoEmpresa", async (req, res) => {
