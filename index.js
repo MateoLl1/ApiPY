@@ -57,7 +57,7 @@ app.post("/registrarUsuario", async (req, res) => {
 app.post("/idUsuario", async (req, res) => {
   const usuario = req.body;
   const respuesta = {
-    Res: await con2.obtenerUsuarioPorId(usuario.id),
+    Res: await con2.obtenerUsuarioPorId(usuario.us_id),
   };
   res.json(respuesta);
 });
