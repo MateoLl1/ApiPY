@@ -137,7 +137,7 @@ async function insertarFactura(
 
 async function obtenerFacturaPorId(id) {
   try {
-    const pool = await poolConnect;
+    await poolConnect;
 
     const consulta = `
       SELECT * FROM tbl_factura WHERE us_id = @id
