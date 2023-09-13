@@ -121,9 +121,9 @@ async function insertarFactura(
     `;
     const request = pool.request();
     request.input("fac_fecha", sql.Date, new Date());
-    request.input("fac_des_pro", sql.NVarChar(255), descripcionProducto);
-    request.input("fac_des_pre", sql.NVarChar(255), descripcionPrecio);
-    request.input("fac_total", sql.Decimal(18, 2), total);
+    request.input("fac_des_pro", sql.NVarChar, descripcionProducto);
+    request.input("fac_des_pre", sql.NVarChar, descripcionPrecio);
+    request.input("fac_total", sql.Float, total);
     request.input("us_id", sql.Int, usuarioId);
     request.input("em_id", sql.Int, empresaId);
     const result = await request.query(consulta);
