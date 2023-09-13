@@ -160,7 +160,7 @@ async function obtenerFacturaPorId(id) {
 
 async function obtenerUsuarioPorId(userId) {
   try {
-    const pool = await poolConnect;
+    await poolConnect;
 
     const request = new sql.Request();
     request.input("us_id", sql.Int, userId);
