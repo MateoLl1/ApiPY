@@ -187,11 +187,11 @@ app.post("/generarFactura", async (req, res) => {
   const factura = req.body;
   const respuesta = {
     Res: await con2.insertarFactura(
-      factura.descripcionProducto,
-      factura.descripcionPrecio,
+      factura.desProd,
+      factura.desPrecio,
       factura.total,
-      factura.usuarioId,
-      factura.empresaId
+      factura.us_id,
+      factura.em_id
     ),
   };
   res.json(respuesta);
