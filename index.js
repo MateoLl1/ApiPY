@@ -62,6 +62,21 @@ app.post("/idUsuario", async (req, res) => {
   res.json(respuesta);
 });
 
+app.post("/actualizarUsuario", async (req, res) => {
+  const usuario = req.body;
+  const respuesta = {
+    Res: await con2.actualizarUsuario(
+      usuario.id,
+      usuario.nombre,
+      usuario.nick,
+      usuario.imagen,
+      usuario.cedula,
+      usuario.fechaN
+    ),
+  };
+  res.json(respuesta);
+});
+
 //EMPRESA CRUD
 
 app.post("/tipoEmpresa", async (req, res) => {

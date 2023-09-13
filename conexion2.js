@@ -176,8 +176,50 @@ async function obtenerUsuarioPorId(userId) {
   }
 }
 
+async function actualizarUsuario(
+  userId,
+  nombre,
+  nickname,
+  imagen,
+  cedula,
+  fechaN
+) {
+  try {
+    const pool = await sql.connect(config);
+    const request = pool.request();
+
+    // Query de actualización
+    const query = `
+      UPDATE tbl_usuario
+      SET
+        us_nombre = @nombre,
+        us_nick = @nick,
+        us_imagen = @imagen,
+        us_cedula = @cedula,
+        us_nacimiento = @naci
+      WHERE us_id = @userId
+    `;
+
+    request.input("userId", sql.Int, userId);
+    request.input("nombre", sql.VarChar, nombre);
+    request.input("nick", sql.VarChar, nickname);
+    request.input("imagen", sql.VarChar, imagen);
+    request.input("cedula", sql.VarChar, cedula);
+    request.input("naci", sql.Date, fechaN);
+
+    const result = await request.query(query);
+
+    console.log("Usuario actualizado con éxito.");
+    return true;
+  } catch (err) {
+    console.error("Error al actualizar el usuario:", err);
+    return false;
+  }
+}
+
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.insertarFactura = insertarFactura;
 module.exports.obtenerFacturaPorId = obtenerFacturaPorId;
 module.exports.obtenerUsuarioPorId = obtenerUsuarioPorId;
+module.exports.actualizarUsuario = actualizarUsuario;
