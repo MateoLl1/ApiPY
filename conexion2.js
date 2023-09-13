@@ -222,16 +222,19 @@ async function obtenerVentasEmpresa(id) {
     await poolConnect;
 
     const consulta = `
-      SELECT * FROM tbl_factura WHERE em_id = @id
+      SELECT f.*, u.*
+      FROM tbl_factura AS f
+      INNER JOIN tbl_usuario AS u ON f.us_id = u.us_id
+      WHERE f.em_id = @id;
     `;
 
     const request = pool.request();
     request.input("id", sql.Int, id);
 
     const resultado = await request.query(consulta);
-    const factura = resultado.recordset;
+    const ventas = resultado.recordset;
 
-    return factura;
+    return ventas;
   } catch (err) {
     console.error("Error al obtener informe", err);
     return false;
