@@ -135,7 +135,29 @@ async function insertarFactura(
   }
 }
 
+async function obtenerFacturaPorId(id) {
+  try {
+    const pool = await poolConnect;
+
+    const consulta = `
+      SELECT * FROM tbl_factura WHERE fac_id = @id
+    `;
+
+    const request = pool.request();
+    request.input("id", sql.Int, id);
+
+    const resultado = await request.query(consulta);
+    const factura = resultado.recordset;
+
+    return factura;
+  } catch (err) {
+    console.error("Error al obtener la factura por ID:", err);
+    return false;
+  }
+}
+
 ///USUARIO
 module.exports.verificarUsuario = verificarUsuario;
 module.exports.insertarUsuario = insertarUsuario;
 module.exports.insertarFactura = insertarFactura;
+module.exports.obtenerFacturaPorId = obtenerFacturaPorId;
